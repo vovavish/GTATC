@@ -2,7 +2,7 @@
 
 public class BinaryTree
 {
-    public class Node
+    internal class Node
     {
         public int Value { get; set; }
         public Node? LeftNode { get; private set; }
@@ -53,17 +53,17 @@ public class BinaryTree
         }
     }
 
-    public Node? Root { get; private set; }
+    private Node? _root;
 
     public void Add(int value)
     {
-        if (Root == null)
+        if (_root == null)
         {
-            Root = new Node(value);
+            _root = new Node(value);
             return;
         }
 
-        Root.Add(value);
+        _root.Add(value);
     }
 
     //public List<int> LongestOddPath()
@@ -78,13 +78,13 @@ public class BinaryTree
 
     public void Print()
     {
-        if (Root != null)
+        if (_root != null)
         {
-            Print(Root);
+            Print(_root);
         }
     }
 
-    public List<int> PrefixOrder() => (Root == null) ? new List<int>() : PrefixOrder(Root);
+    public List<int> PrefixOrder() => (_root == null) ? new List<int>() : PrefixOrder(_root);
 
     private void Print(Node? startNode, string indent = "", string? side = null)
     {

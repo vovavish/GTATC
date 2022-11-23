@@ -66,29 +66,51 @@ public class BinaryTree
         _root.Add(value);
     }
 
-    //public List<int> LongestOddPath()
-    //{
-
-    //}
-
-    //private List<int> LongestOddPath(Node? startNode, int level)
-    //{
-
-    //}
-
     public void Print()
     {
         if (_root != null)
         {
-            Print(_root);
+            Print(_root, "", null);
+        }
+        else
+        {
+            throw new Exception("Tree is Empty!");
         }
     }
 
-    public List<int> PrefixOrder() => (_root == null) ? new List<int>() : PrefixOrder(_root);
-
-    private void Print(Node? startNode, string indent = "", string? side = null)
+    public List<int> LongestOddPath()
     {
-        if (startNode != null)
+        List<int> answer = LongestOddPath(_root);
+        answer.Reverse();
+        return answer;
+    }
+
+    private List<int> LongestOddPath(Node? root)
+    {
+        if (root is null || root.Value % 2 == 0)
+        {
+            return new List<int>();
+        }
+
+        List<int> rightPath = LongestOddPath(root.RightNode);
+
+        List<int> leftPath = LongestOddPath(root.LeftNode);
+
+        if (leftPath.Count > rightPath.Count)
+        {
+            leftPath.Add(root.Value);
+        }
+        else
+        {
+            rightPath.Add(root.Value);
+        }
+
+        return (leftPath.Count > rightPath.Count) ? leftPath : rightPath;
+    }
+
+    private void Print(Node? startNode, string indent, string? side)
+    {
+        if (startNode is not null)
         {
             Console.WriteLine($"{indent}[{side ?? "root"}]:{startNode.Value}");
 
@@ -97,27 +119,5 @@ public class BinaryTree
             Print(startNode.LeftNode, indent, "L");
             Print(startNode.RightNode, indent, "R");
         }
-    }
-
-    private List<int> PrefixOrder(Node node)
-    {
-        List<int> result = new List<int>();
-
-        if (node != null)
-        {
-            result.Add(node.Value);
-
-            if (node.LeftNode != null)
-            {
-                result.AddRange(PrefixOrder(node.LeftNode));
-            }
-
-            if (node.RightNode != null)
-            {
-                result.AddRange(PrefixOrder(node.RightNode));
-            }
-        }
-
-        return result;
     }
 }

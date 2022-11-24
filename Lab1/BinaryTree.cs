@@ -1,8 +1,10 @@
-﻿namespace Lab1;
+﻿using System.Collections.Generic;
+
+namespace Lab1;
 
 public class BinaryTree
 {
-    internal class Node
+    public class Node
     {
         public int Value { get; set; }
         public Node? LeftNode { get; private set; }
@@ -55,6 +57,43 @@ public class BinaryTree
 
     private Node? _root;
 
+    public List<int> PrefixOrder() => (_root == null) ? new List<int>() : PrefixOrder(_root);
+
+    private List<int> PrefixOrder(Node node)
+    {
+        List<int> result = new List<int>();
+
+        if (node != null)
+        {
+            result.Add(node.Value);
+
+            if (node.LeftNode != null)
+            {
+                result.AddRange(PrefixOrder(node.LeftNode));
+            }
+
+            if (node.RightNode != null)
+            {
+                result.AddRange(PrefixOrder(node.RightNode));
+            }
+        }
+
+        return result;
+    }
+
+    public void SortedArrayToBST(int[] nums)
+    {
+        _root = Solve(0, nums.Length - 1);
+
+        Node Solve(int low, int high)
+        {
+            if (low > high) return null;
+
+            int mid = low + (high - low) / 2;
+            return new Node(nums[mid], Solve(low, mid - 1), Solve(mid + 1, high));
+        }
+    }
+
     public void Add(int value)
     {
         if (_root == null)
@@ -68,14 +107,8 @@ public class BinaryTree
 
     public void Print()
     {
-        if (_root != null)
-        {
-            Print(_root, "", null);
-        }
-        else
-        {
-            throw new Exception("Tree is Empty!");
-        }
+        TreePrinter.LongestOddPath = LongestOddPath();
+        _root.Print();
     }
 
     public List<int> LongestOddPath()
@@ -92,9 +125,9 @@ public class BinaryTree
             return new List<int>();
         }
 
-        List<int> rightPath = LongestOddPath(root.RightNode);
-
         List<int> leftPath = LongestOddPath(root.LeftNode);
+
+        List<int> rightPath = LongestOddPath(root.RightNode);
 
         if (leftPath.Count > rightPath.Count)
         {
@@ -106,18 +139,5 @@ public class BinaryTree
         }
 
         return (leftPath.Count > rightPath.Count) ? leftPath : rightPath;
-    }
-
-    private void Print(Node? startNode, string indent, string? side)
-    {
-        if (startNode is not null)
-        {
-            Console.WriteLine($"{indent}[{side ?? "root"}]:{startNode.Value}");
-
-            indent += new string(' ', 3);
-
-            Print(startNode.LeftNode, indent, "L");
-            Print(startNode.RightNode, indent, "R");
-        }
     }
 }

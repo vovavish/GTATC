@@ -7,8 +7,10 @@ public class BinaryTree
     public class Node
     {
         public int Value { get; set; }
-        public Node? LeftNode { get; private set; }
-        public Node? RightNode { get; private set; }
+        public Node? LeftNode { get; set; }
+        public Node? RightNode { get; set; }
+
+        public Node() {}
 
         public Node(int value)
         {
@@ -21,121 +23,124 @@ public class BinaryTree
             LeftNode = leftNode;
             RightNode = rightNode;
         }
-
-        public void Add(int value)
-        {
-            Node addNode = new Node(value);
-
-            if (addNode.Value == Value)
-            {
-                return;
-            }
-            else if (addNode.Value < Value)
-            {
-                if (LeftNode == null)
-                {
-                    LeftNode = addNode;
-                }
-                else
-                {
-                    LeftNode.Add(value);
-                }
-            }
-            else
-            {
-                if (RightNode == null)
-                {
-                    RightNode = addNode;
-                }
-                else
-                {
-                    RightNode.Add(value);
-                }
-            }
-        }
     }
 
-    private Node? _root;
+    public Node? Root { get; set; }
 
-    public List<int> PrefixOrder() => (_root == null) ? new List<int>() : PrefixOrder(_root);
-
-    private List<int> PrefixOrder(Node node)
+    //////////////////////////////////////////////
+    public int HeightOfTree(Node? root)
     {
-        List<int> result = new List<int>();
-
-        if (node != null)
-        {
-            result.Add(node.Value);
-
-            if (node.LeftNode != null)
-            {
-                result.AddRange(PrefixOrder(node.LeftNode));
-            }
-
-            if (node.RightNode != null)
-            {
-                result.AddRange(PrefixOrder(node.RightNode));
-            }
-        }
-
-        return result;
+        return root is null ? 0 : Math.Max(HeightOfTree(root.LeftNode), HeightOfTree(root.RightNode)) + 1;
     }
 
-    public void SortedArrayToBST(int[] nums)
+    // Traverse the tree in inorder and keep storing
+    // each node at right place in the array arr.
+    // Initial value of pos is 0
+    void PopulateNodesInArray(Node r, int[] arr, int pos)
     {
-        _root = Solve(0, nums.Length - 1);
-
-        Node Solve(int low, int high)
+        if (r == null)
         {
-            if (low > high) return null;
-
-            int mid = low + (high - low) / 2;
-            return new Node(nums[mid], Solve(low, mid - 1), Solve(mid + 1, high));
-        }
-    }
-
-    public void Add(int value)
-    {
-        if (_root == null)
-        {
-            _root = new Node(value);
             return;
         }
 
-        _root.Add(value);
+        arr[pos] = r.Value;
+        
+        if (r.LeftNode != null)
+        {
+            PopulateNodesInArray(r.LeftNode, arr, 2 * pos + 1);
+        }
+
+        if (r.RightNode != null)
+        {
+            PopulateNodesInArray(r.RightNode, arr, 2 * pos + 2);
+        }
     }
+
+    public int[] ToArray()
+    {
+        int[] arr = new int[(int)Math.Pow(2, HeightOfTree(Root)) - 1];
+
+        Array.Fill(arr, -1);
+
+        PopulateNodesInArray(Root, arr, 0);
+
+        return arr;
+    }
+
+    // pos is the position of root in array
+    public void PopulateTreeFromArray(Node r, int[] arr, int pos)
+    {
+        if (r == null || arr == null || arr.Length == 0)
+        {
+            return;
+        }
+
+        // Setting the left subtree of root
+        int newPos = 2 * pos + 1;
+
+        if (newPos < arr.Length && arr[newPos] != -1)
+        {
+            r.LeftNode = new Node(arr[newPos]);
+            PopulateTreeFromArray(r.LeftNode, arr, newPos);
+        }
+
+        // Setting the Right subtree of root
+        newPos = 2 * pos + 2;
+
+        if (newPos < arr.Length && arr[newPos] != -1)
+        {
+            r.RightNode = new Node(arr[newPos]);
+            PopulateTreeFromArray(r.RightNode, arr, newPos);
+        }
+    }
+
+    // We will discard all the negative values as empty spaces
+    public void FromArray(int[] arr)
+    {
+        if (arr == null || arr[0] == -1)
+        {
+            return;
+        }
+
+        // We will populate the root node here
+        // and leave the responsibility of populating rest of tree
+        // to the recursive function
+        Root = new Node(arr[0]);
+        PopulateTreeFromArray(Root, arr, 0);
+    }
+    //////////////////////////////////////////////
 
     public void Print()
     {
         TreePrinter.LongestOddPath = LongestOddPath();
-        _root.Print();
+        Root.Print();
     }
 
-    public List<int> LongestOddPath()
+    public List<Node> LongestOddPath()
     {
-        List<int> answer = LongestOddPath(_root);
+        List<Node> answer = LongestOddPath(Root);
         answer.Reverse();
         return answer;
     }
 
-    private List<int> LongestOddPath(Node? root)
+    private List<Node> LongestOddPath(Node? root)
     {
         if (root is null || root.Value % 2 == 0)
         {
-            return new List<int>();
+            return new List<Node>();
         }
 
-        List<int> leftPath = LongestOddPath(root.LeftNode);
+        List<Node> leftPath = LongestOddPath(root.LeftNode);
 
-        List<int> rightPath = LongestOddPath(root.RightNode);
+        List<Node> rightPath = LongestOddPath(root.RightNode);
 
         if (leftPath.Count > rightPath.Count)
         {
-            leftPath.Add(root.Value);
+            leftPath.Add(root);
         }
         else
         {
-            rightPath.Add(root.Value);
+            rightPath.Add(root);
         }
 
         return (leftPath.Count > rightPath.Count) ? leftPath : rightPath;

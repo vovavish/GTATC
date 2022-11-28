@@ -4,7 +4,7 @@ using static Lab1.BinaryTree;
 
 public static class TreePrinter
 {
-    public static List<int>? LongestOddPath { get; set; } = null;
+    public static List<Node>? LongestOddPath { get; set; } = null;
 
     class NodeInfo
     {
@@ -119,7 +119,7 @@ public static class TreePrinter
     private static void Print(NodeInfo item, int top)
     {
         SwapColors();
-        Print(item.Text, top, item.StartPos);
+        PrintNode(item.Node, top, item.StartPos);
         SwapColors();
 
         Console.ResetColor();
@@ -150,23 +150,31 @@ public static class TreePrinter
             right = left + s.Length;
         }
 
-        SetBGcolorIfInPath(s, ConsoleColor.Cyan);
-
         while (Console.CursorLeft < right)
         {
             Console.Write(s);
         }
     }
 
-    private static void SetBGcolorIfInPath(string strNumber, ConsoleColor color)
+    private static void PrintNode(Node node, int top, int left, int right = -1)
     {
-        int res;
-        if (int.TryParse(strNumber, out res))
+        Console.SetCursorPosition(left, top);
+
+        if (right < 0)
         {
-            if (LongestOddPath.Contains(res))
-            {
-                Console.BackgroundColor = color;
-            }
+            right = left + node.Value.ToString().Length + 2;
+        }
+
+        SetBGcolorIfInPath(node, ConsoleColor.Cyan);
+
+        Console.Write(" " + node.Value + " ");
+    }
+
+    private static void SetBGcolorIfInPath(Node node, ConsoleColor color)
+    {
+        if (LongestOddPath.Contains(node))
+        {
+            Console.BackgroundColor = color;
         }
     }
 

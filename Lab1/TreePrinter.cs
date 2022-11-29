@@ -4,9 +4,9 @@ namespace Lab1;
 
 public static class TreePrinter
 {
-    public static List<Node>? LongestOddPath { get; set; } = null;
+    public static List<Node>? LongestOddPath { get; set; } = default!;
 
-    class NodeInfo
+    internal class NodeInfo
     {
         public Node Node { get; set; } = default!;
         public string Text { get; set; } = default!;
@@ -37,18 +37,20 @@ public static class TreePrinter
         }
     }
 
-    public static void Print(this Node? root, int topMargin = 0, int leftMargin = 0)
+    public static void Print(BinaryTree? tree, int topMargin = 0, int leftMargin = 0)
     {
-        if (root is null)
+        if (tree is null)
         {
             return;
         }
+
+        LongestOddPath = tree.LongestOddPath();
 
         int rootTop = Console.CursorTop + topMargin;
         
         List<NodeInfo> last = new();
         
-        Node? next = root;
+        Node? next = tree.Root;
 
         for (int level = 0; next != null; level++)
         {
@@ -90,6 +92,7 @@ public static class TreePrinter
             for (; next == null; item = item.Parent)
             {
                 Print(item, rootTop + 2 * level);
+
                 if (--level < 0)
                 {
                     break;
@@ -172,7 +175,7 @@ public static class TreePrinter
 
     private static void SetBGcolorIfInPath(Node node, ConsoleColor color)
     {
-        if (LongestOddPath.Contains(node))
+        if (LongestOddPath?.Contains(node) ?? false)
         {
             Console.BackgroundColor = color;
         }

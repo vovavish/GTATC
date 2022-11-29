@@ -1,24 +1,37 @@
 ﻿using Lab1;
+using System.Diagnostics;
 
-BinaryTree tree = new();
-int[] arr = new int[] { 29,
-31, 41,
-31, -1, 33, -1,
-45, 16, -1, -1, 37, 40, -1,-1,
-1, 11, 31, 47, -1, -1, -1, -1, 42, 10, 41, 38, -1,-1, -1,-1, };
-tree.FromArray(arr);
+Stopwatch sw = Stopwatch.StartNew();
 
-tree = BinaryTreeGenerator.FromTextFile(@"C:\Users\vovavish\Desktop\tree.txt");
+BinaryTree tree = BinaryTreeGenerator.FromTextFile(@"C:\Users\User\Desktop\tree40.txt");
+tree.LongestOddPath();
 
-//tree.Print();
+sw.Stop();
 
-List<BinaryTree.Node> longestPath = tree.LongestOddPath();
+Console.WriteLine(sw.ElapsedTicks);
 
-for (int i = 0; i < longestPath.Count; i++)
-{
-    Console.Write(longestPath[i].Value + ", ");
-}
+Stopwatch sw2 = Stopwatch.StartNew();
+
+BinaryTree tree2 = BinaryTreeGenerator.FromTextFile(@"C:\Users\User\Desktop\tree40.txt");
+tree2.LongestOddPath();
+
+sw2.Stop();
+
+Console.WriteLine(sw2.ElapsedTicks);
+//TreePrinter.Print(tree);
+
+
+Console.WriteLine("\nLongest Odd Path:");
+
+//for (int i = 0; i < longestPath.Count; i++)
+//{
+//    Console.Write(longestPath[i].Value);
+
+//    if (i != longestPath.Count - 1)
+//    {
+//        Console.Write(", ");
+//    }
+//}
+
 Console.WriteLine();
-Console.WriteLine(tree.HeightOfTree(tree.Root));
-
-Console.WriteLine(string.Join(", ", tree.ToArray()));
+//Console.WriteLine(string.Join(", ", tree.ToArray()));

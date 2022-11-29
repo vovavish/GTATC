@@ -3,9 +3,8 @@ using static Lab1.BinaryTree;
 
 namespace Lab1;
 
-internal class BinaryTreeGenerator
+public class BinaryTreeGenerator
 {
-    // We will discard all the negative values as empty spaces
     public static BinaryTree FromArray(int?[] arr)
     {
         if (arr == null || arr[0] == null)
@@ -13,15 +12,12 @@ internal class BinaryTreeGenerator
             return new BinaryTree();
         }
 
-        BinaryTree binaryTree = new BinaryTree
+        BinaryTree binaryTree = new()
         {
-            // We will populate the root node here
-            // and leave the responsibility of populating rest of tree
-            // to the recursive function
-            Root = new Node((int)arr[0])
+            Root = new Node((int)arr[0]!)
         };
 
-        PopulateTreeFromArray(binaryTree.Root, arr, 0);
+        PopulateTreeFromArray(binaryTree.Root, arr);
 
         return binaryTree;
     }
@@ -56,9 +52,9 @@ internal class BinaryTreeGenerator
         return FromArray(arrayTree);
     }
 
-    private static void PopulateTreeFromArray(Node r, int?[] arr, int pos)
+    private static void PopulateTreeFromArray(Node node, int?[] arr, int pos = 0)
     {
-        if (r is null || arr is null || arr.Length == 0)
+        if (node is null || arr is null || arr.Length == 0)
         {
             return;
         }
@@ -66,19 +62,19 @@ internal class BinaryTreeGenerator
         // Setting the left subtree of root
         int newPos = 2 * pos + 1;
 
-        if (newPos < arr.Length && arr[newPos] != null)
+        if (newPos < arr.Length && arr[newPos] is not null)
         {
-            r.LeftNode = new Node((int)arr[newPos]);
-            PopulateTreeFromArray(r.LeftNode, arr, newPos);
+            node.LeftNode = new Node((int)arr[newPos]!);
+            PopulateTreeFromArray(node.LeftNode, arr, newPos);
         }
 
         // Setting the Right subtree of root
         newPos = 2 * pos + 2;
 
-        if (newPos < arr.Length && arr[newPos] != null)
+        if (newPos < arr.Length && arr[newPos] is not null)
         {
-            r.RightNode = new Node((int)arr[newPos]);
-            PopulateTreeFromArray(r.RightNode, arr, newPos);
+            node.RightNode = new Node((int)arr[newPos]!);
+            PopulateTreeFromArray(node.RightNode, arr, newPos);
         }
     }
 }

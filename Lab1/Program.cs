@@ -8,7 +8,9 @@ int[] arr = new int[] { 29,
 1, 11, 31, 47, -1, -1, -1, -1, 42, 10, 41, 38, -1,-1, -1,-1, };
 tree.FromArray(arr);
 
-tree.Print();
+tree = BinaryTreeGenerator.FromTextFile(@"C:\Users\vovavish\Desktop\tree.txt");
+
+//tree.Print();
 
 List<BinaryTree.Node> longestPath = tree.LongestOddPath();
 

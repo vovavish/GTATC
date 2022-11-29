@@ -1,6 +1,6 @@
-﻿using System;
-using System.Linq;
-using static Lab1.BinaryTree;
+﻿using static Lab1.BinaryTree;
+
+namespace Lab1;
 
 public static class TreePrinter
 {

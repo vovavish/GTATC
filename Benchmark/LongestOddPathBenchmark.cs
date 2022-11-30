@@ -4,44 +4,64 @@ using Lab1;
 namespace Benchmark;
 
 [MemoryDiagnoser]
-[RankColumn]
 public class LongestOddPathBenchmark
 {
-    //private readonly BinaryTree tree40 = BinaryTreeGenerator.FromTextFile(@"C:\Users\User\Desktop\tree40.txt");
-    //private readonly BinaryTree tree1023 = BinaryTreeGenerator.FromTextFile(@"C:\Users\User\Desktop\tree1023.txt");
-    //private readonly BinaryTree tree200_000 = BinaryTreeGenerator.FromTextFile(@"C:\Users\User\Desktop\tree200000.txt");
+    private readonly BinaryTree tree40 = BinaryTreeGenerator.FromTextFile(@"..\..\..\..\tree10.txt");
+    private readonly BinaryTree tree1023 = BinaryTreeGenerator.FromTextFile(@"..\..\..\..\tree1k.txt");
+    private readonly BinaryTree tree200k = BinaryTreeGenerator.FromTextFile(@"..\..\..\..\tree200k.txt");
+    private readonly BinaryTree tree1M = BinaryTreeGenerator.FromTextFile(@"..\..\..\..\tree1M.txt");
 
     [Benchmark]
-    public void LongestOddPath40Nodes()
+    public void LOP10NodesWithTreeCreation()
     {
-        BinaryTree tree40 = BinaryTreeGenerator.FromTextFile(@"C:\Users\User\Desktop\tree40.txt");
+        BinaryTree tree40 = BinaryTreeGenerator.FromTextFile(@"..\..\..\..\tree10.txt");
         tree40.LongestOddPath();
     }
 
     [Benchmark]
-    public void LongestOddPath1023Nodes()
+    public void LOP1kNodesWithTreeCreation()
     {
-        BinaryTree tree1023 = BinaryTreeGenerator.FromTextFile(@"C:\Users\User\Desktop\tree1023.txt");
+        BinaryTree tree1023 = BinaryTreeGenerator.FromTextFile(@"..\..\..\..\tree1k.txt");
         tree1023.LongestOddPath();
     }
 
     [Benchmark]
-    public void LongestOddPath200000Nodes()
+    public void LOP200kNodesWithTreeCreation()
     {
-        BinaryTree tree200_000 = BinaryTreeGenerator.FromTextFile(@"C:\Users\User\Desktop\tree200000.txt");
-        tree200_000.LongestOddPath();
+        BinaryTree tree200K = BinaryTreeGenerator.FromTextFile(@"..\..\..\..\tree200k.txt");
+        tree200K.LongestOddPath();
     }
 
     [Benchmark]
-    public void LongestOddPath1MNodes()
+    public void LOP1MNodesWithTreeCreation()
     {
-        BinaryTree tree1_000_000 = BinaryTreeGenerator.FromTextFile(@"C:\Users\User\Desktop\tree1M.txt");
-        tree1_000_000.LongestOddPath();
+        BinaryTree tree1M = BinaryTreeGenerator.FromTextFile(@"..\..\..\..\tree1M.txt");
+        tree1M.LongestOddPath();
+    }
+
+
+    [Benchmark]
+    public void LOP10Nodes()
+    {
+        tree40.LongestOddPath();
     }
 
     [Benchmark]
-    public void TEST()
+    public void LOP1kNodes()
     {
+        tree1023.LongestOddPath();
+    }
+
+    [Benchmark]
+    public void LOP200kNodes()
+    {
+        tree200k.LongestOddPath();
+    }
+
+    [Benchmark]
+    public void LOP1MNodes()
+    {
+        tree1M.LongestOddPath();
     }
 }
 

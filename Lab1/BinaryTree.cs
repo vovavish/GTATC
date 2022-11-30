@@ -23,58 +23,29 @@ public class BinaryTree
 
     public Node? Root { get; set; }
 
-    private void PopulateNodesInArray(Node? node, int[] arr, int pos = 0)
-    {
-        if (node == null)
-        {
-            return;
-        }
-
-        arr[pos] = node.Value;
-        
-        if (node.LeftNode != null)
-        {
-            PopulateNodesInArray(node.LeftNode, arr, 2 * pos + 1);
-        }
-
-        if (node.RightNode != null)
-        {
-            PopulateNodesInArray(node.RightNode, arr, 2 * pos + 2);
-        }
-    }
-
-    public int[] ToArray()
-    {
-        int[] arr = new int[(int)Math.Pow(2, HeightOfTree(Root)) - 1];
-
-        Array.Fill(arr, -1);
-
-        PopulateNodesInArray(Root, arr);
-
-        return arr;
-    }
-
-    public List<Node> LongestOddPath()
+    public List<Node> LongestOddPath() // обёртка над рекурсивным вызовом этого метода.
     {
         List<Node> result = LongestOddPath(Root);
 
-        result.Reverse();
+        result.Reverse(); // реверсируем список, т.к. узлы добавляются в обратном порядке в рекурсивном вызове.
 
         return result;
     }
 
-    public List<Node> LongestOddPath(Node? root)
+    public int HeightOfTree(Node? root) => root is null ? 0 : Math.Max(HeightOfTree(root.LeftNode), HeightOfTree(root.RightNode)) + 1;
+
+    private List<Node> LongestOddPath(Node? root)
     {
-        if (root is null || root.Value % 2 == 0)
+        if (root is null || root.Value % 2 == 0) // если это лист или значение чётно, то возвращаем пустой список
         {
             return new List<Node>();
         }
 
-        List<Node> leftPath = LongestOddPath(root.LeftNode);
+        List<Node> leftPath = LongestOddPath(root.LeftNode); // проходим левое поддерево
 
-        List<Node> rightPath = LongestOddPath(root.RightNode);
+        List<Node> rightPath = LongestOddPath(root.RightNode); // проходим правое поддерево
 
-        if (leftPath.Count > rightPath.Count)
+        if (leftPath.Count > rightPath.Count) // возвращаясь смотрим, где путь длиннее и добавляем очередное значение
         {
             leftPath.Add(root);
         }
@@ -83,8 +54,6 @@ public class BinaryTree
             rightPath.Add(root);
         }
 
-        return (leftPath.Count > rightPath.Count) ? leftPath : rightPath;
+        return (leftPath.Count > rightPath.Count) ? leftPath : rightPath; // возвращаем больший путь
     }
-
-    private int HeightOfTree(Node? root) => root is null ? 0 : Math.Max(HeightOfTree(root.LeftNode), HeightOfTree(root.RightNode)) + 1;
 }

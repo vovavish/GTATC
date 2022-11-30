@@ -1,37 +1,110 @@
-﻿using Lab1;
-using System.Diagnostics;
+﻿namespace Lab1;
 
-Stopwatch sw = Stopwatch.StartNew();
+class Program
+{
+    private static BinaryTree? _tree;
 
-BinaryTree tree = BinaryTreeGenerator.FromTextFile(@"C:\Users\User\Desktop\tree40.txt");
-tree.LongestOddPath();
+    public static void Main(string[] args)
+    {
+        if (args.Length == 0 || args[0].ToLower() == "help")
+        {
+            PrintHelp();
+        }
+        else if (args.Length == 1)
+        {
+            _tree = BinaryTreeGenerator.FromTextFile(args[0]);
 
-sw.Stop();
+            PrintTree(_tree);
 
-Console.WriteLine(sw.ElapsedTicks);
+            Console.WriteLine();
 
-Stopwatch sw2 = Stopwatch.StartNew();
+            List<BinaryTree.Node> longestPath = _tree.LongestOddPath();
 
-BinaryTree tree2 = BinaryTreeGenerator.FromTextFile(@"C:\Users\User\Desktop\tree40.txt");
-tree2.LongestOddPath();
+            Console.WriteLine("Height of the tree: " + _tree.HeightOfTree(_tree.Root));
 
-sw2.Stop();
+            string longestPathStr = LongestPathToStr(longestPath);
 
-Console.WriteLine(sw2.ElapsedTicks);
-//TreePrinter.Print(tree);
+            Console.Write("Longest Odd Path: ");
 
+            if (longestPathStr.Length > 60) // если путь в консоли не уместиться в 80 символов, то самый длинный путь записываем в файл
+            {
+                using (StreamWriter streamWriter = new($"tree_LongestPath_{longestPath.Count}.txt"))
+                {
+                    streamWriter.WriteAsync(longestPathStr);
+                }
 
-Console.WriteLine("\nLongest Odd Path:");
+                Console.WriteLine($"written to file tree_LongestPath_{longestPath.Count}.txt");
+            }
+            else
+            {
+                Console.WriteLine(longestPathStr);
+            }
 
-//for (int i = 0; i < longestPath.Count; i++)
-//{
-//    Console.Write(longestPath[i].Value);
+            Console.WriteLine("Longest Odd Path Length: " + longestPath.Count);
+        }
+        else if (args.Length > 2)
+        {
+            if (int.TryParse(args[1], out int nNodes)) // парсим количество узлов
+            {
+                if (nNodes > 0)
+                {
+                    bool onlyOdd = false;
 
-//    if (i != longestPath.Count - 1)
-//    {
-//        Console.Write(", ");
-//    }
-//}
+                    if (args[2][0].ToString().ToLower() == "y") // устанавливаем генерацию только нечётных чисел в соответствии с флагом в аргументах
+                    {
+                        onlyOdd = true;
+                    }
 
-Console.WriteLine();
-//Console.WriteLine(string.Join(", ", tree.ToArray()));
+                    BinaryTreeFileGenerator.GenFile(args[0], nNodes, onlyOdd);
+                }
+            }
+            else
+            {
+                Console.WriteLine("Invalid Number of nodes.");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Try again.");
+        }
+    }
+
+    static string LongestPathToStr(List<BinaryTree.Node> longestPath)
+    {
+        string longestPathToFile = string.Empty;
+
+        for (int i = 0; i < longestPath.Count; i++)
+        {
+            longestPathToFile += longestPath[i].Value;
+
+            if (i != longestPath.Count - 1)
+            {
+                longestPathToFile += " ";
+            }
+        }
+
+        return longestPathToFile;
+    }
+
+    static void PrintTree(BinaryTree tree) // вывод дерева в случае, если оно поместиться в консоль
+    {
+        if (BinaryTreePrinter.CanPrint(tree))
+        {
+            BinaryTreePrinter.Print(tree);
+        }
+        else
+        {
+            Console.WriteLine("The tree is too big to print.");
+        }
+    }
+
+    static void PrintHelp()
+    {
+        Console.WriteLine("Generate tree file:");
+        Console.WriteLine("pathToSavefileTree numberOfNodes onlyOdd");
+        Console.WriteLine("onlyOdd if > 0");
+        Console.WriteLine();
+        Console.WriteLine("See info about tree:");
+        Console.WriteLine("pathTofileTree");
+    }
+}

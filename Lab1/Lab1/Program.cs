@@ -1,4 +1,6 @@
-﻿namespace Lab1;
+﻿using System.Runtime.Serialization.Formatters.Binary;
+
+namespace Lab1;
 
 class Program
 {
@@ -14,6 +16,15 @@ class Program
         {
             _tree = BinaryTreeGenerator.FromTextFile(args[0]);
 
+            object obj = new object();
+            using (Stream stream = new MemoryStream())
+            {
+                BinaryFormatter formatter = new BinaryFormatter();
+                formatter.Serialize(stream, obj);
+                long size = stream.Length;
+
+                Console.WriteLine(size);
+            }
             PrintTree(_tree);
 
             Console.WriteLine();

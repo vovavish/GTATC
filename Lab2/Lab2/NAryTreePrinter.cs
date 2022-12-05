@@ -5,9 +5,13 @@ namespace Lab2;
 internal static class NAryTreePrinter
 {
     private static int _minPathLen = 0;
+    private static ConsoleColor _leafColor;
 
-    public static void PrintTree(Node root)
+
+    public static void PrintTree(Node root, ConsoleColor leaf)
     {
+        _leafColor = leaf;
+
         _minPathLen = GetShortestPaths(root)[0].Count - 1;
 
         bool[] flag = new bool[CountNodes(root)];
@@ -34,7 +38,7 @@ internal static class NAryTreePrinter
 
         if (depth == _minPathLen && (x.Children is null || x.Children.Count == 0))
         {
-            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.ForegroundColor = _leafColor;
         }
 
         if (depth == 0)

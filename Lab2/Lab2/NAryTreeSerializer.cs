@@ -3,7 +3,7 @@ using System.Text;
 
 namespace Lab2;
 
-internal static class NAryTreeSerializer
+public static class NAryTreeSerializer
 {
     public static string Serialize(Node root)
     {
@@ -20,7 +20,7 @@ internal static class NAryTreeSerializer
         return sb.ToString();
     }
 
-    public static Node Deserialize(string str)
+    public static NAryTree Deserialize(string str)
     {
         Node root = null;
         Stack<Node> stack = new Stack<Node>();
@@ -28,24 +28,33 @@ internal static class NAryTreeSerializer
 
         for (int i = 0; i < str.Length; i++)
         {
-            if (str.ElementAt(i) == ',')
+            if (str[i] == ',')
             {
                 Node child = new Node(int.Parse(data.ToString()));
-                if (!(stack.Count == 0)) stack.Peek().AddChild(child);
-                else root = child;
+                if (!(stack.Count == 0))
+                {
+                    stack.Peek().AddChild(child);
+                }
+                else
+                {
+                    root = child;
+                }
+                
                 stack.Push(child);
                 data = new StringBuilder();
             }
-            else if (str.ElementAt(i) == ')')
+            else if (str[i] == ')')
             {
                 stack.Pop();
             }
             else
             {
-                data.Append(str.ElementAt(i));
+                data.Append(str[i]);
             }
         }
 
-        return root;
+        NAryTree result = new();
+        result.Root = root;
+        return result;
     }
 }

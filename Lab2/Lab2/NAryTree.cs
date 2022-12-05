@@ -49,31 +49,38 @@ public class NAryTree
 
     public void RemoveNearestNodes()
     {
-        List<List<Node>> nodes = new List<List<Node>>();
+        List<List<Node>> nodes = GetShortestPaths(Root);
 
-        foreach (var path in GetShortestPaths(Root))
+        foreach (var path in nodes)
         {
-            RemoveLeaf(path);
+            RemoveLeaf(ref Root, path);
         }
     }
 
-    private void RemoveLeaf(List<Node> path)
+    private void RemoveLeaf(ref Node node, List<Node> path)
     {
-        Node current = Root;
+        if (node is null || path.Count <= 0)
+        {
+            return;
+        }
 
-        for (int i = 0; i < path.Count; i++)
+        Node current = node;
+
+        for (int i = 1; i < path.Count; i++)
         {
             for (int j = 0; j < current.Children.Count; j++)
             {
                 if (current.Children[j].Value == path[i].Value)
                 {
-                    if (i == path.Count - 1)
+                    if (i == path.Count - 1 && (current.Children[j].Children is null || current.Children[j].Children.Count == 0))
                     {
                         current.Children.RemoveAt(j);
                     }
                     else
                     {
-                        current = current.Children[j];
+                        Node from = current.Children[j];
+
+                        RemoveLeaf(ref from, path.Skip(i).ToList());
                     }
                 }
             }
@@ -103,6 +110,23 @@ public class NAryTree
         return allPaths.Where(n => n.Count == minLen).ToList();
     }
 
+    public static int CountNodes(Node root)
+    {
+        if (root is null)
+        {
+            return 0;
+        }
+
+        int count = 1;
+
+        foreach (Node child in root.Children)
+        {
+            count += CountNodes(child);
+        }
+
+        return count;
+    }
+
     private static List<List<Node>> GetAllPaths(ref List<List<Node>> paths, Node node, Stack<Node> path)
     {
         path.Push(node);
@@ -122,22 +146,5 @@ public class NAryTree
         }
 
         return paths;
-    }
-
-    public static int CountNodes(Node root)
-    {
-        if (root is null)
-        {
-            return 0;
-        }
-
-        int count = 1;
-
-        foreach (Node child in root.Children)
-        {
-            count += CountNodes(child);
-        }
-
-        return count;
     }
 }

@@ -23,14 +23,14 @@ public static class NAryTreeSerializer
     public static NAryTree Deserialize(string str)
     {
         Node root = null;
-        Stack<Node> stack = new Stack<Node>();
-        StringBuilder data = new StringBuilder();
+        Stack<Node> stack = new();
+        StringBuilder data = new();
 
         for (int i = 0; i < str.Length; i++)
         {
             if (str[i] == ',')
             {
-                Node child = new Node(int.Parse(data.ToString()));
+                Node child = new(int.Parse(data.ToString()));
                 if (!(stack.Count == 0))
                 {
                     stack.Peek().AddChild(child);

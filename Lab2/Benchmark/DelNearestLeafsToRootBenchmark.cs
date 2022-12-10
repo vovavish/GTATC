@@ -17,33 +17,33 @@ public class DelNearestLeafsToRootBenchmark
     private readonly NAryTree tree260k = NAryTreeSerializer.Deserialize(tree260kserialize);
     private readonly NAryTree tree1M = NAryTreeSerializer.Deserialize(tree1Mserialize);
 
-    [Benchmark]
-    public void RNL10NodesWithTreeCreation()
-    {
-        NAryTree tree15 = NAryTreeSerializer.Deserialize(tree15serialize);
-        tree15.RemoveNearestNodes();
-    }
+    //[Benchmark]
+    //public void RNL15NWithTreeDeserialize()
+    //{
+    //    NAryTree tree15 = NAryTreeSerializer.Deserialize(tree15serialize);
+    //    tree15.RemoveNearestNodes();
+    //}
 
-    [Benchmark]
-    public void RNL1kNodesWithTreeCreation()
-    {
-        NAryTree tree1k = NAryTreeSerializer.Deserialize(tree1kserialize);
-        tree1k.RemoveNearestNodes();
-    }
+    //[Benchmark]
+    //public void RNL1kNWithTreeDeserialize()
+    //{
+    //    NAryTree tree1k = NAryTreeSerializer.Deserialize(tree1kserialize);
+    //    tree1k.RemoveNearestNodes();
+    //}
 
-    [Benchmark]
-    public void RNL260kNodesWithTreeCreation()
-    {
-        NAryTree tree260k = NAryTreeSerializer.Deserialize(tree260kserialize);
-        tree260k.RemoveNearestNodes();
-    }
+    //[Benchmark]
+    //public void RNL260kNWithTreeDeserialize()
+    //{
+    //    NAryTree tree260k = NAryTreeSerializer.Deserialize(tree260kserialize);
+    //    tree260k.RemoveNearestNodes();
+    //}
 
-    [Benchmark]
-    public void RNL1MNodesWithTreeCreation()
-    {
-        NAryTree tree1M = NAryTreeSerializer.Deserialize(tree1Mserialize);
-        tree1M.RemoveNearestNodes();
-    }
+    //[Benchmark]
+    //public void RNL1MNWithTreeDeserialize()
+    //{
+    //    NAryTree tree1M = NAryTreeSerializer.Deserialize(tree1Mserialize);
+    //    tree1M.RemoveNearestNodes();
+    //}
 
 
     [Benchmark]

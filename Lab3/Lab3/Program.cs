@@ -1,38 +1,45 @@
 ﻿namespace Lab3;
+
 class Program
 {
     static void Main(string[] args)
     {
-        int[,] M1 = {
-            { 1, 0, 0, 0, 4, 9 },
-            { 0, 2, 0, 0, 0, 0 },
-            { 0, 0, 0, 0, 0, 0 },
-            { 5, 0, 0, 0, 7, 0 },
-            { 0, 0, 3, 0, 0, 0 },
-            { 7, 0, 0, 0, 5, 6 },
-        };
+        if (args.Length == 0) // как пользоваться программой
+        {
+            Console.WriteLine("How to sum matrix:");
+            Console.WriteLine("pathToFirstMatrix pathToSecondMatrix");
+        }
+        if (args.Length == 2)
+        {
+            CRS first = SparseGenerator.CRSFromFile(args[0]); // считываем матрицы из переданных файлов.
+            CRS second = SparseGenerator.CRSFromFile(args[1]);
 
-        File.WriteAllText("test", SparseGenerator.GenerateMatrix(1, 1, 1));
-        //CRS crs = SparseGenerator.CRSFromFile("test2.txt");
-        //CRS crs = new CRS();
-        //crs.FromMatrix(M1);
-        //MatrixPrinter.Print(crs);
-        //Console.WriteLine("Value [" + string.Join(" ", crs.Values) + "]");
-        //Console.WriteLine("Rows [" + string.Join(" ", crs.RowsPointer) + "]");
-        //Console.WriteLine("ColumnIndexes [" + string.Join(" ", crs.ColumnIndices) + "]");
+            Console.WriteLine("First matrix:");
+            MatrixPrinter.Print(first);
+            Console.WriteLine("\nFirst matrix in CRS format:");
 
-        //CCS ccs = SumCRSToCCS(crs, crs);
+            Console.WriteLine("Values [" + string.Join(" ", first.Values) + "]"); // CRS формат первой матрицы
+            Console.WriteLine("RowsPointer [" + string.Join(" ", first.RowsPointer) + "]");
+            Console.WriteLine("RowIndexes [" + string.Join(" ", first.RowIndexes) + "]");
 
-        //Console.WriteLine();
-        //Console.WriteLine("SUM OF TWO CRS MATRIX IN CCS");
-        //Console.WriteLine();
+            Console.WriteLine("\nSecond matrix:");
+            MatrixPrinter.Print(second);
+            Console.WriteLine("\nSecond matrix in CRS format:");
 
-        //MatrixPrinter.Print(ccs);
+            Console.WriteLine("Values [" + string.Join(" ", second.Values) + "]"); // CRS формат второй матрицы
+            Console.WriteLine("RowsPointer [" + string.Join(" ", second.RowsPointer) + "]");
+            Console.WriteLine("RowIndexes [" + string.Join(" ", second.RowIndexes) + "]");
 
-        //Console.WriteLine("Value [" + string.Join(" ", ccs.Values) + "]");
-        //Console.WriteLine("Rows [" + string.Join(" ", ccs.RowsStarts) + "]");
-        //Console.WriteLine("ColumnIndexes [" + string.Join(" ", ccs.ColumnIndexes) + "]");
+            CCS result = CCS.FromCRS(CRS.Sum(first, second)); // преобразуем сумму CRS матриц в CCS
 
-        static CCS SumCRSToCCS(CRS first, CRS second) => CCS.FromCRS(CRS.Sum(first, second));
+            Console.WriteLine("\nFirst + Second = result:");
+
+            MatrixPrinter.Print(result); // выводим результат на экран
+
+            Console.WriteLine("result matrix in CCS format:");
+            Console.WriteLine("Values [" + string.Join(" ", result.Values) + "]");
+            Console.WriteLine("ColumnsStart [" + string.Join(" ", result.ColumnsStart) + "]");
+            Console.WriteLine("ColumnIndexes [" + string.Join(" ", result.ColumnIndexes) + "]");
+        }
     }
 }

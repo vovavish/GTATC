@@ -4,7 +4,7 @@ public class CRS : SparseMatrix
 {
     public List<int> Values { get; set; }
     public List<int> RowsPointer { get; set; }
-    public List<int> ColumnIndices { get; set; }
+    public List<int> RowIndexes { get; set; }
 
     public CRS(int rows, int cols)
     {
@@ -20,7 +20,7 @@ public class CRS : SparseMatrix
         Cols = matrix.GetLength(1);
         Values = new();
         RowsPointer = new() { 0 };
-        ColumnIndices = new();
+        RowIndexes = new();
         int NNZ = 0;
 
         for (int i = 0; i < Rows; i++)
@@ -30,7 +30,7 @@ public class CRS : SparseMatrix
                 if (matrix[i, j] != 0)
                 {
                     Values.Add(matrix[i, j]);
-                    ColumnIndices.Add(j);
+                    RowIndexes.Add(j);
                     NNZ++;
                 }
             }
@@ -39,7 +39,7 @@ public class CRS : SparseMatrix
         }
     }
 
-    public override int GetByIJ(int row, int col)
+    public override int GetByIJ(int row, int col) // доступ по индексу как у обычной матрицы
     {
         if (row > Rows || col > Cols || row < 0 || col < 0)
         {
@@ -48,7 +48,7 @@ public class CRS : SparseMatrix
 
         for (int i = RowsPointer[row]; i < RowsPointer[row + 1]; i++)
         {
-            if (ColumnIndices[i] == col)
+            if (RowIndexes[i] == col)
             {
                 return Values[i];
             }

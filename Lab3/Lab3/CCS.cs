@@ -4,7 +4,7 @@ public class CCS : SparseMatrix
 {
     public List<int> Values { get; set; }
     public List<int> ColumnIndexes { get; set; }
-    public List<int> RowsStarts { get; set; }
+    public List<int> ColumnsStart { get; set; }
 
     public CCS(int rows, int cols)
     {
@@ -20,7 +20,7 @@ public class CCS : SparseMatrix
         Cols = matrix.GetLength(1);
         Values = new();
         ColumnIndexes = new() { 0 };
-        RowsStarts = new();
+        ColumnsStart = new();
 
         int nNonzero = 0;
 
@@ -31,7 +31,7 @@ public class CCS : SparseMatrix
                 if (matrix[j, i] != 0)
                 {
                     Values.Add(matrix[j, i]);
-                    RowsStarts.Add(j);
+                    ColumnsStart.Add(j);
                     nNonzero++;
                 }
             }
@@ -40,7 +40,7 @@ public class CCS : SparseMatrix
         }
     }
 
-    public override int GetByIJ(int row, int col)
+    public override int GetByIJ(int row, int col) // доступ по индексу как у обычной матрицы
     {
         if (row > Rows || row < 0)
         {
@@ -54,7 +54,7 @@ public class CCS : SparseMatrix
 
         for (int i = ColumnIndexes[col]; i < ColumnIndexes[col + 1]; i++)
         {
-            if (RowsStarts[i] == row)
+            if (ColumnsStart[i] == row)
             {
                 return Values[i];
             }
@@ -63,7 +63,7 @@ public class CCS : SparseMatrix
         return 0;
     }
 
-    public static CCS FromCRS(CRS crs)
+    public static CCS FromCRS(CRS crs) // преобразование из CRS В ССS
     {
         int nnz = crs.Values.Count;
 
@@ -74,7 +74,7 @@ public class CCS : SparseMatrix
         int[] cnt = new int[crs.Cols];
         for (int k = 0; k < nnz; k++)
         {
-            int col = crs.ColumnIndices[k];
+            int col = crs.RowIndexes[k];
             cnt[col] += 1;
         }
 
@@ -87,7 +87,7 @@ public class CCS : SparseMatrix
         {
             for (int j = crs.RowsPointer[i]; j < crs.RowsPointer[i + 1]; j++)
             {
-                int col = crs.ColumnIndices[j];
+                int col = crs.RowIndexes[j];
                 int dest = Bp[col];
 
                 Bi[dest] = i;
@@ -111,7 +111,7 @@ public class CCS : SparseMatrix
             Cols = crs.Cols,
             Values = Bx.ToList(),
             ColumnIndexes = Bp.ToList(),
-            RowsStarts = Bi.ToList()
+            ColumnsStart = Bi.ToList()
         };
     }
 }

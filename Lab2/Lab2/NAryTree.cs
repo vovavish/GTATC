@@ -28,22 +28,7 @@ public class NAryTree
 
     public Node? Root;
 
-    public void Traverse(Node root)
-    {
-        if (root is not null)
-        {
-            Console.Write($"{root.Value} ");
-            if (root.Children is not null)
-            {
-                for (int i = 0; i < root.Children.Count; i++)
-                {
-                    Traverse(root.Children[i]);
-                }
-            }
-        }
-    }
-
-    public void RemoveNearestNodes()
+    public void RemoveNearestNodes() // удаление самых близких к корню листов
     {
         List<List<Node>> nodes = GetShortestPaths(Root);
 
@@ -53,7 +38,7 @@ public class NAryTree
         }
     }
 
-    private void RemoveLeaf(ref Node node, List<Node> path)
+    private void RemoveLeaf(ref Node node, List<Node> path) // удаление листа по конкретному пути
     {
         if (node is null || path.Count <= 0)
         {
@@ -68,22 +53,22 @@ public class NAryTree
             {
                 if (current.Children[j].Value == path[i].Value)
                 {
-                    if (i == path.Count - 1 && (current.Children[j].Children is null || current.Children[j].Children.Count == 0))
+                    if (i == path.Count - 1 && (current.Children[j].Children is null || current.Children[j].Children.Count == 0)) // если ребёнок текущего узла лист
                     {
-                        current.Children.RemoveAt(j);
+                        current.Children.RemoveAt(j); // удаляем его
                     }
                     else
                     {
                         Node from = current.Children[j];
 
-                        RemoveLeaf(ref from, path.Skip(i).ToList());
+                        RemoveLeaf(ref from, path.Skip(i).ToList()); // для каждого ребёнка, который подойдёт нам для следующего рекурсивно вызываем удаление пути
                     }
                 }
             }
         }
     }
 
-    public static List<List<Node>> GetShortestPaths(Node root)
+    public static List<List<Node>> GetShortestPaths(Node root) // получение самых коротких путей
     {
         List<List<Node>> allPaths = new List<List<Node>>();
         GetAllPaths(ref allPaths, root, new Stack<Node>());
@@ -103,7 +88,7 @@ public class NAryTree
             }
         }
 
-        return allPaths.Where(n => n.Count == minLen).ToList();
+        return allPaths.Where(n => n.Count == minLen).ToList(); // из всех путей выбираем самые короткие
     }
 
     public static int CountNodes(Node root)

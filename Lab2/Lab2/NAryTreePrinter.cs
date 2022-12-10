@@ -12,7 +12,7 @@ internal static class NAryTreePrinter
     {
         _leafColor = leaf;
 
-        _minPathLen = GetShortestPaths(root)[0].Count - 1;
+        _minPathLen = GetShortestPaths(root)[0].Count - 1; // получаем длину самого коротко пути, чтобы обозначить нужные узлы цветом
 
         bool[] flag = new bool[CountNodes(root)];
         Array.Fill(flag, true);

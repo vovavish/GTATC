@@ -1,0 +1,5 @@
+rows:10
+cols:10
+Values: [-387]
+RowsPointer: [0 0 0 0 0 1 1 1 1 1 1]
+RowIndexes: [4]

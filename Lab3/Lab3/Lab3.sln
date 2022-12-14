@@ -5,7 +5,9 @@ VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lab3", "Lab3.csproj", "{D72A2450-2C49-46FB-8246-71EEDD52E0B0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Benchmark", "..\Benchmark\Benchmark.csproj", "{C9863F41-0C49-485A-92F4-709C64052446}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Benchmark", "..\Benchmark\Benchmark.csproj", "{C9863F41-0C49-485A-92F4-709C64052446}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MatrixGenerator", "..\MatrixGenerator\MatrixGenerator.csproj", "{624BEAA0-F703-48E2-9241-E08C46EE76D8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{C9863F41-0C49-485A-92F4-709C64052446}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C9863F41-0C49-485A-92F4-709C64052446}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C9863F41-0C49-485A-92F4-709C64052446}.Release|Any CPU.Build.0 = Release|Any CPU
+		{624BEAA0-F703-48E2-9241-E08C46EE76D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{624BEAA0-F703-48E2-9241-E08C46EE76D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{624BEAA0-F703-48E2-9241-E08C46EE76D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{624BEAA0-F703-48E2-9241-E08C46EE76D8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

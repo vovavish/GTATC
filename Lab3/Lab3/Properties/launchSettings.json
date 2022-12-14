@@ -2,7 +2,7 @@
   "profiles": {
     "Lab3": {
       "commandName": "Project",
-      "commandLineArgs": "test_1_matrix1_10x10_10NNZ.txt test_1_matrix2_10x10_10NNZ.txt"
+      "commandLineArgs": "test.txt test.txt"
     }
   }
 }

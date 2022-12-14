@@ -7,55 +7,166 @@ namespace Benchmark;
 [MemoryDiagnoser]
 public class SparseBenchmark
 {
-    private static readonly CRS test1_1_CRS10x10_10 = SparseGenerator.CRSFromFile(@"..\..\..\..\test_1_matrix1_10x10_10NNZ.txt");
-    private static readonly CRS test1_2_CRS10x10_10 = SparseGenerator.CRSFromFile(@"..\..\..\..\test_1_matrix2_10x10_10NNZ.txt");
+    private static readonly CRS test_1_0_CRS_1_10x10_NNZ_1 = SparseSerializer.DeserializeCRS(@"..\..\..\..\CRS_TEST\test_1.0_CRS_1_10x10_NNZ_1.txt");
+    private static readonly CRS test_1_0_CRS_2_10x10_NNZ_1 = SparseSerializer.DeserializeCRS(@"..\..\..\..\CRS_TEST\test_1.0_CRS_2_10x10_NNZ_1.txt");
 
-    private static readonly CRS test2_1_CRS100x100_100 = SparseGenerator.CRSFromFile(@"..\..\..\..\test_2_matrix1_100x100_100NNZ.txt");
-    private static readonly CRS test2_2_CRS100x100_100 = SparseGenerator.CRSFromFile(@"..\..\..\..\test_2_matrix2_100x100_100NNZ.txt");
+    private static readonly CRS test_1_1_CRS_1_10x10_NNZ_10 = SparseSerializer.DeserializeCRS(@"..\..\..\..\CRS_TEST\test_1.1_CRS_1_10x10_NNZ_10.txt");
+    private static readonly CRS test_1_1_CRS_2_10x10_NNZ_10 = SparseSerializer.DeserializeCRS(@"..\..\..\..\CRS_TEST\test_1.1_CRS_2_10x10_NNZ_10.txt");
 
-    private static readonly CRS test3_1_CRS1kx1k_1k = SparseGenerator.CRSFromFile(@"..\..\..\..\test_3_matrix1_1000x1000_1000NNZ.txt");
-    private static readonly CRS test3_2_CRS1kx1k_1k = SparseGenerator.CRSFromFile(@"..\..\..\..\test_3_matrix2_1000x1000_1000NNZ.txt");
+    private static readonly CRS test_1_2_CRS_1_10x10_NNZ_50 = SparseSerializer.DeserializeCRS(@"..\..\..\..\CRS_TEST\test_1.2_CRS_1_10x10_NNZ_50.txt");
+    private static readonly CRS test_1_2_CRS_2_10x10_NNZ_50 = SparseSerializer.DeserializeCRS(@"..\..\..\..\CRS_TEST\test_1.2_CRS_2_10x10_NNZ_50.txt");
+
+
+    private static readonly CRS test_2_0_CRS_1_100x100_NNZ_100 = SparseSerializer.DeserializeCRS(@"..\..\..\..\CRS_TEST\test_2.0_CRS_1_100x100_NNZ_100.txt");
+    private static readonly CRS test_2_0_CRS_2_100x100_NNZ_100 = SparseSerializer.DeserializeCRS(@"..\..\..\..\CRS_TEST\test_2.0_CRS_2_100x100_NNZ_100.txt");
+
+    private static readonly CRS test_2_1_CRS_1_100x100_NNZ_1000 = SparseSerializer.DeserializeCRS(@"..\..\..\..\CRS_TEST\test_2.1_CRS_1_100x100_NNZ_1000.txt");
+    private static readonly CRS test_2_1_CRS_2_100x100_NNZ_1000 = SparseSerializer.DeserializeCRS(@"..\..\..\..\CRS_TEST\test_2.1_CRS_2_100x100_NNZ_1000.txt");
+
+    private static readonly CRS test_2_2_CRS_1_100x100_NNZ_5000 = SparseSerializer.DeserializeCRS(@"..\..\..\..\CRS_TEST\test_2.2_CRS_1_100x100_NNZ_5000.txt");
+    private static readonly CRS test_2_2_CRS_2_100x100_NNZ_5000 = SparseSerializer.DeserializeCRS(@"..\..\..\..\CRS_TEST\test_2.2_CRS_2_100x100_NNZ_5000.txt");
+
+
+    private static readonly CRS test_3_0_CRS_1_1000x1000_NNZ_1000 = SparseSerializer.DeserializeCRS(@"..\..\..\..\CRS_TEST\test_3.0_CRS_1_1000x1000_NNZ_1000.txt");
+    private static readonly CRS test_3_0_CRS_2_1000x1000_NNZ_1000 = SparseSerializer.DeserializeCRS(@"..\..\..\..\CRS_TEST\test_3.0_CRS_2_1000x1000_NNZ_1000.txt");
+
+    private static readonly CRS test_3_1_CRS_1_1000x1000_NNZ_10000 = SparseSerializer.DeserializeCRS(@"..\..\..\..\CRS_TEST\test_3.1_CRS_1_1000x1000_NNZ_10000.txt");
+    private static readonly CRS test_3_1_CRS_2_1000x1000_NNZ_10000 = SparseSerializer.DeserializeCRS(@"..\..\..\..\CRS_TEST\test_3.1_CRS_2_1000x1000_NNZ_10000.txt");
+
+    private static readonly CRS test_3_2_CRS_1_1000x1000_NNZ_500000 = SparseSerializer.DeserializeCRS(@"..\..\..\..\CRS_TEST\test_3.2_CRS_1_1000x1000_NNZ_500000.txt");
+    private static readonly CRS test_3_2_CRS_2_1000x1000_NNZ_500000 = SparseSerializer.DeserializeCRS(@"..\..\..\..\CRS_TEST\test_3.2_CRS_2_1000x1000_NNZ_500000.txt");
 
     [Benchmark]
-    public void SumCRS10x10withDesirialization()
+    public void SumCRS10x10_NNZ_1()
     {
-        CRS test1_1_CRS10x10_10 = SparseGenerator.CRSFromFile(@"..\..\..\..\test_1_matrix1_10x10_10NNZ.txt");
-        CRS test1_2_CRS10x10_10 = SparseGenerator.CRSFromFile(@"..\..\..\..\test_1_matrix2_10x10_10NNZ.txt");
-        CCS ccs = CCS.FromCRS(CRS.Sum(test1_1_CRS10x10_10, test1_2_CRS10x10_10));
+        CCS ccs = CCS.FromCRS(CRS.Sum(test_1_0_CRS_1_10x10_NNZ_1, test_1_0_CRS_2_10x10_NNZ_1));
     }
 
     [Benchmark]
-    public void SumCRS100x100withDesirialization()
+    public void SumCRS10x10_NNZ_10()
     {
-        CRS test2_1_CRS100x100_100 = SparseGenerator.CRSFromFile(@"..\..\..\..\test_2_matrix1_100x100_100NNZ.txt");
-        CRS test2_2_CRS100x100_100 = SparseGenerator.CRSFromFile(@"..\..\..\..\test_2_matrix2_100x100_100NNZ.txt");
-        CCS ccs = CCS.FromCRS(CRS.Sum(test2_1_CRS100x100_100, test2_2_CRS100x100_100));
+        CCS ccs = CCS.FromCRS(CRS.Sum(test_1_1_CRS_1_10x10_NNZ_10, test_1_1_CRS_2_10x10_NNZ_10));
     }
 
     [Benchmark]
-    public void SumCRS1kx1kwithDesirialization()
+    public void SumCRS10x10_NNZ_50()
     {
-        CRS test3_1_CRS1kx1k_1k = SparseGenerator.CRSFromFile(@"..\..\..\..\test_3_matrix1_1000x1000_1000NNZ.txt");
-        CRS test3_2_CRS1kx1k_1k = SparseGenerator.CRSFromFile(@"..\..\..\..\test_3_matrix2_1000x1000_1000NNZ.txt");
-        CCS ccs = CCS.FromCRS(CRS.Sum(test3_1_CRS1kx1k_1k, test3_2_CRS1kx1k_1k));
+        CCS ccs = CCS.FromCRS(CRS.Sum(test_1_2_CRS_1_10x10_NNZ_50, test_1_2_CRS_2_10x10_NNZ_50));
+    }
+
+
+    [Benchmark]
+    public void SumCRS100x100_NNZ_100()
+    {
+        CCS ccs = CCS.FromCRS(CRS.Sum(test_2_0_CRS_1_100x100_NNZ_100, test_2_0_CRS_2_100x100_NNZ_100));
     }
 
     [Benchmark]
-    public void SumCRS10x10ToCCS()
+    public void SumCRS100x100_NNZ_1000()
     {
-        CCS ccs = CCS.FromCRS(CRS.Sum(test1_1_CRS10x10_10, test1_2_CRS10x10_10));
+        CCS ccs = CCS.FromCRS(CRS.Sum(test_2_1_CRS_1_100x100_NNZ_1000, test_2_1_CRS_1_100x100_NNZ_1000));
     }
 
     [Benchmark]
-    public void SumCRS100x100ToCCS()
+    public void SumCRS100x100_NNZ_5000()
     {
-        CCS ccs = CCS.FromCRS(CRS.Sum(test2_1_CRS100x100_100, test2_2_CRS100x100_100));
+        CCS ccs = CCS.FromCRS(CRS.Sum(test_2_2_CRS_1_100x100_NNZ_5000, test_2_2_CRS_2_100x100_NNZ_5000));
+    }
+
+
+    [Benchmark]
+    public void SumCRS1000x1000_NNZ_1000()
+    {
+        CCS ccs = CCS.FromCRS(CRS.Sum(test_3_0_CRS_1_1000x1000_NNZ_1000, test_3_0_CRS_2_1000x1000_NNZ_1000));
     }
 
     [Benchmark]
-    public void SumCRS1kx1kToCCS()
+    public void SumCRS1000x1000_NNZ_10000()
     {
-        CCS ccs = CCS.FromCRS(CRS.Sum(test3_1_CRS1kx1k_1k, test3_2_CRS1kx1k_1k));
+        CCS ccs = CCS.FromCRS(CRS.Sum(test_3_1_CRS_1_1000x1000_NNZ_10000, test_3_1_CRS_1_1000x1000_NNZ_10000));
+    }
+
+    [Benchmark]
+    public void SumCRS1000x1000_NNZ_500000()
+    {
+        CCS ccs = CCS.FromCRS(CRS.Sum(test_3_2_CRS_1_1000x1000_NNZ_500000, test_3_2_CRS_1_1000x1000_NNZ_500000));
+    }
+
+
+
+
+    [Benchmark]
+    public void SumCRS10x10_NNZ_1_ser()
+    {
+        CRS test_1_0_CRS_1_10x10_NNZ_1 = SparseSerializer.DeserializeCRS(@"..\..\..\..\CRS_TEST\test_1.0_CRS_1_10x10_NNZ_1.txt");
+        CRS test_1_0_CRS_2_10x10_NNZ_1 = SparseSerializer.DeserializeCRS(@"..\..\..\..\CRS_TEST\test_1.0_CRS_2_10x10_NNZ_1.txt");
+        CCS ccs = CCS.FromCRS(CRS.Sum(test_1_0_CRS_1_10x10_NNZ_1, test_1_0_CRS_2_10x10_NNZ_1));
+    }
+
+    [Benchmark]
+    public void SumCRS10x10_NNZ_10_ser()
+    {
+        CRS test_1_1_CRS_1_10x10_NNZ_10 = SparseSerializer.DeserializeCRS(@"..\..\..\..\CRS_TEST\test_1.1_CRS_1_10x10_NNZ_10.txt");
+        CRS test_1_1_CRS_2_10x10_NNZ_10 = SparseSerializer.DeserializeCRS(@"..\..\..\..\CRS_TEST\test_1.1_CRS_2_10x10_NNZ_10.txt");
+        CCS ccs = CCS.FromCRS(CRS.Sum(test_1_1_CRS_1_10x10_NNZ_10, test_1_1_CRS_2_10x10_NNZ_10));
+    }
+
+    [Benchmark]
+    public void SumCRS10x10_NNZ_50_ser()
+    {
+        CRS test_1_2_CRS_1_10x10_NNZ_50 = SparseSerializer.DeserializeCRS(@"..\..\..\..\CRS_TEST\test_1.2_CRS_1_10x10_NNZ_50.txt");
+        CRS test_1_2_CRS_2_10x10_NNZ_50 = SparseSerializer.DeserializeCRS(@"..\..\..\..\CRS_TEST\test_1.2_CRS_2_10x10_NNZ_50.txt");
+        CCS ccs = CCS.FromCRS(CRS.Sum(test_1_2_CRS_1_10x10_NNZ_50, test_1_2_CRS_2_10x10_NNZ_50));
+    }
+
+
+    [Benchmark]
+    public void SumCRS100x100_NNZ_100_ser()
+    {
+        CRS test_2_0_CRS_1_100x100_NNZ_100 = SparseSerializer.DeserializeCRS(@"..\..\..\..\CRS_TEST\test_2.0_CRS_1_100x100_NNZ_100.txt");
+        CRS test_2_0_CRS_2_100x100_NNZ_100 = SparseSerializer.DeserializeCRS(@"..\..\..\..\CRS_TEST\test_2.0_CRS_2_100x100_NNZ_100.txt");
+        CCS ccs = CCS.FromCRS(CRS.Sum(test_2_0_CRS_1_100x100_NNZ_100, test_2_0_CRS_2_100x100_NNZ_100));
+    }
+
+    [Benchmark]
+    public void SumCRS100x100_NNZ_1000_ser()
+    {
+        CRS test_2_1_CRS_1_100x100_NNZ_1000 = SparseSerializer.DeserializeCRS(@"..\..\..\..\CRS_TEST\test_2.1_CRS_1_100x100_NNZ_1000.txt");
+        CRS test_2_1_CRS_2_100x100_NNZ_1000 = SparseSerializer.DeserializeCRS(@"..\..\..\..\CRS_TEST\test_2.1_CRS_2_100x100_NNZ_1000.txt");
+        CCS ccs = CCS.FromCRS(CRS.Sum(test_2_1_CRS_1_100x100_NNZ_1000, test_2_1_CRS_1_100x100_NNZ_1000));
+    }
+
+    [Benchmark]
+    public void SumCRS100x100_NNZ_5000_ser()
+    {
+        CRS test_2_2_CRS_1_100x100_NNZ_5000 = SparseSerializer.DeserializeCRS(@"..\..\..\..\CRS_TEST\test_2.2_CRS_1_100x100_NNZ_5000.txt");
+        CRS test_2_2_CRS_2_100x100_NNZ_5000 = SparseSerializer.DeserializeCRS(@"..\..\..\..\CRS_TEST\test_2.2_CRS_2_100x100_NNZ_5000.txt");
+        CCS ccs = CCS.FromCRS(CRS.Sum(test_2_2_CRS_1_100x100_NNZ_5000, test_2_2_CRS_2_100x100_NNZ_5000));
+    }
+
+
+    [Benchmark]
+    public void SumCRS1000x1000_NNZ_1000_ser()
+    {
+        CRS test_3_0_CRS_1_1000x1000_NNZ_1000 = SparseSerializer.DeserializeCRS(@"..\..\..\..\CRS_TEST\test_3.0_CRS_1_1000x1000_NNZ_1000.txt");
+        CRS test_3_0_CRS_2_1000x1000_NNZ_1000 = SparseSerializer.DeserializeCRS(@"..\..\..\..\CRS_TEST\test_3.0_CRS_2_1000x1000_NNZ_1000.txt");
+        CCS ccs = CCS.FromCRS(CRS.Sum(test_3_0_CRS_1_1000x1000_NNZ_1000, test_3_0_CRS_2_1000x1000_NNZ_1000));
+    }
+
+    [Benchmark]
+    public void SumCRS1000x1000_NNZ_10000_ser()
+    {
+        CRS test_3_1_CRS_1_1000x1000_NNZ_10000 = SparseSerializer.DeserializeCRS(@"..\..\..\..\CRS_TEST\test_3.1_CRS_1_1000x1000_NNZ_10000.txt");
+        CRS test_3_1_CRS_2_1000x1000_NNZ_10000 = SparseSerializer.DeserializeCRS(@"..\..\..\..\CRS_TEST\test_3.1_CRS_2_1000x1000_NNZ_10000.txt");
+        CCS ccs = CCS.FromCRS(CRS.Sum(test_3_1_CRS_1_1000x1000_NNZ_10000, test_3_1_CRS_1_1000x1000_NNZ_10000));
+    }
+
+    [Benchmark]
+    public void SumCRS1000x1000_NNZ_500000_ser()
+    {
+        CRS test_3_2_CRS_1_1000x1000_NNZ_500000 = SparseSerializer.DeserializeCRS(@"..\..\..\..\CRS_TEST\test_3.2_CRS_1_1000x1000_NNZ_500000.txt");
+        CRS test_3_2_CRS_2_1000x1000_NNZ_500000 = SparseSerializer.DeserializeCRS(@"..\..\..\..\CRS_TEST\test_3.2_CRS_2_1000x1000_NNZ_500000.txt");
+        CCS ccs = CCS.FromCRS(CRS.Sum(test_3_2_CRS_1_1000x1000_NNZ_500000, test_3_2_CRS_1_1000x1000_NNZ_500000));
     }
 }
 

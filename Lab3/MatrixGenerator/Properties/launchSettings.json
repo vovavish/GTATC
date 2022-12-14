@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "MatrixGenerator": {
+      "commandName": "Project",
+      "commandLineArgs": "bandmatrix 3 10 10 53 test_1.2_matrix_2_10x10_NNZ_50.txt"
+    }
+  }
+}

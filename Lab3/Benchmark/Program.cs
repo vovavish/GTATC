@@ -1,4 +1,9 @@
 ﻿using Benchmark;
 using BenchmarkDotNet.Running;
-
-BenchmarkRunner.Run<SparseBenchmark>();
+class Program
+{
+    static void Main(string[] args)
+    {
+        BenchmarkRunner.Run<MatrixBenchmark>();
+    }
+}

@@ -1,11 +1,12 @@
-﻿using System.Text;
+﻿using System.Numerics;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Lab3;
 
 public static class SparseGenerator
 {
-    public static CRS CRSFromFile(string path)
+    public static int[,] MatrixFromFile(string path)
     {
         string data = File.ReadAllText(path);
 
@@ -30,11 +31,7 @@ public static class SparseGenerator
             }
         }
 
-        CRS result = new CRS();
-
-        result.FromMatrix(matrix);
-
-        return result;
+        return matrix;
     }
 
     public static string GenerateMatrix(int rows, int cols, int nNoneZero)

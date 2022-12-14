@@ -3,7 +3,7 @@
 public class CCS : SparseMatrix
 {
     public List<int> Values { get; set; }
-    public List<int> ColumnIndexes { get; set; }
+    public List<int> ColumnPointer { get; set; }
     public List<int> ColumnsStart { get; set; }
 
     public CCS(int rows, int cols)
@@ -19,7 +19,7 @@ public class CCS : SparseMatrix
         Rows = matrix.GetLength(0);
         Cols = matrix.GetLength(1);
         Values = new();
-        ColumnIndexes = new() { 0 };
+        ColumnPointer = new() { 0 };
         ColumnsStart = new();
 
         int nNonzero = 0;
@@ -36,7 +36,7 @@ public class CCS : SparseMatrix
                 }
             }
 
-            ColumnIndexes.Add(nNonzero);
+            ColumnPointer.Add(nNonzero);
         }
     }
 
@@ -52,7 +52,7 @@ public class CCS : SparseMatrix
             throw new ArgumentOutOfRangeException(nameof(col));
         }
 
-        for (int i = ColumnIndexes[col]; i < ColumnIndexes[col + 1]; i++)
+        for (int i = ColumnPointer[col]; i < ColumnPointer[col + 1]; i++)
         {
             if (ColumnsStart[i] == row)
             {
@@ -110,7 +110,7 @@ public class CCS : SparseMatrix
             Rows = crs.Rows,
             Cols = crs.Cols,
             Values = Bx.ToList(),
-            ColumnIndexes = Bp.ToList(),
+            ColumnPointer = Bp.ToList(),
             ColumnsStart = Bi.ToList()
         };
     }
